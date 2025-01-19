@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login com Google</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .profile {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        img {
+            border-radius: 50%;
+            margin-top: 10px;
+        }
+        .g_id_signin {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Sign-In Button -->
+    <div id="g_id_onload"
+         data-client_id="SEU_CLIENT_ID.apps.googleusercontent.com"
+         data-login_uri="https://<seu-usuário>.github.io/<repositório>"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-size="large"
+         data-logo_alignment="left">
+    </div>
+
+    <!-- Profile Section -->
+    <div class="profile" id="profile">
+        <h2 id="name"></h2>
+        <img id="image" alt="Profile Picture">
+        <p id="email"></p>
+    </div>
+
+    <script>
+        // Função de callback quando o login for bem-sucedido
+        function handleCredentialResponse(response) {
+            // Decodifica o token JWT
+            const data = parseJwt(response.credential);
+
+            // Exibe os dados do perfil
+            document.getElementById('name').textContent = `Bem-vindo, ${data.name}`;
+            document.getElementById('email').textContent = `E-mail: ${data.email}`;
+            document.getElementById('image').src = data.picture;
+            document.getElementById('profile').style.display = 'block';
+        }
+
+        // Função para decodificar o token JWT
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        // Configura o callback para o Google Sign-In
+        window.onload = function() {
+            google.accounts.id.initialize({
+                client_id: "SEU_CLIENT_ID.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+            google.accounts.id.prompt(); // Exibe o prompt de login
+        };
+    </script>
+</body>
+</html>
