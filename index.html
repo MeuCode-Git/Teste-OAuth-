@@ -4,21 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="manifest" href="manifest.json">
+<script>
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("service-worker.js")
+            .then(() => console.log("Service Worker registrado com sucesso."))
+            .catch(err => console.error("Erro ao registrar o Service Worker:", err));
+    }
+</script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         /* Estilos gerais */
-        body {
-            font-family: 'Poppins', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-        }
+       body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha o conteúdo ao topo */
+    min-height: 100vh; /* Garante que o conteúdo ocupe toda a altura */
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    flex-direction: column;
+    overflow: hidden; /* Remove rolagem desnecessária no corpo */
+}
+
+.container {
+    background: var(--bg-color);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%; /* Ocupa toda a largura */
+    max-width: 400px; /* Limita a largura máxima */
+    margin: 0 auto; /* Centraliza horizontalmente */
+    overflow-y: auto; /* Permite rolar dentro do container */
+    max-height: calc(100vh - 40px); /* Garante que o container caiba na tela */
+}
+
+
         :root {
             --bg-color: #ffffff;
             --text-color: #000000;
@@ -95,6 +120,39 @@
             margin-top: 20px;
             color: #ddd;
             font-size: 0.9em;
+            width: 100%;
+        }
+        /* Estilo para os cartões */
+        .card {
+            background-color: var(--bg-color);
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #007BFF;
+        }
+        .card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .card ul li {
+            margin: 8px 0;
+            font-size: 1em;
+            color: var(--text-color);
+        }
+        .card ul li::before {
+            content: "✔️";
+            margin-right: 8px;
+            color: #28a745;
         }
     </style>
 </head>
@@ -118,34 +176,42 @@
         <div class="app-bar">Guia de Entrevistas</div>
         <h1>Bem-vindo!</h1>
         <p>Siga estas orientações para entrevistas incríveis:</p>
-        
-        <h2>1. Preparação</h2>
-        <ul>
-            <li>Escolha um local silencioso e bem iluminado.</li>
-            <li>Verifique se o equipamento de gravação está funcionando.</li>
-            <li>Sorria e seja acolhedor com os entrevistados.</li>
-        </ul>
-        
-        <h2>2. Perguntas Sugeridas</h2>
-        <ul>
-            <li>"O que mais te impactou no culto de hoje?"</li>
-            <li>"Como você se sentiu participando do culto?"</li>
-            <li>"Que mensagem você levará para sua vida?"</li>
-        </ul>
-        
-        <h2>3. Dicas Durante a Entrevista</h2>
-        <ul>
-            <li>Peça autorização para gravar e usar o depoimento.</li>
-            <li>Deixe o entrevistado confortável e à vontade para falar.</li>
-            <li>Grave de forma horizontal para melhor qualidade de vídeo.</li>
-        </ul>
-        
-        <h2>4. Finalização</h2>
-        <ul>
-            <li>Agradeça o entrevistado pela participação.</li>
-            <li>Revise o vídeo para garantir boa qualidade.</li>
-        </ul>
-        
+
+        <div class="card">
+            <h2>1. Preparação</h2>
+            <ul>
+                <li>Escolha um local silencioso e bem iluminado.</li>
+                <li>Verifique se o equipamento de gravação está funcionando.</li>
+                <li>Sorria e seja acolhedor com os entrevistados.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>2. Perguntas Sugeridas</h2>
+            <ul>
+                <li>"O que mais te impactou no culto de hoje?"</li>
+                <li>"Como você se sentiu participando do culto?"</li>
+                <li>"Que mensagem você levará para sua vida?"</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>3. Dicas Durante a Entrevista</h2>
+            <ul>
+                <li>Peça autorização para gravar e usar o depoimento.</li>
+                <li>Deixe o entrevistado confortável e à vontade para falar.</li>
+                <li>Grave de forma horizontal para melhor qualidade de vídeo.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>4. Finalização</h2>
+            <ul>
+                <li>Agradeça o entrevistado pela participação.</li>
+                <li>Revise o vídeo para garantir boa qualidade.</li>
+            </ul>
+        </div>
+
         <a href="#" class="button">Pronto para começar!</a>
     </div>
 
