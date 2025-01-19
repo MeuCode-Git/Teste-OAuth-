@@ -42,3 +42,12 @@ self.addEventListener("activate", event => {
     )
   );
 });
+
+if (window.matchMedia("(display-mode: standalone)").matches) {
+    console.log("App aberto no modo PWA");
+} else {
+    alert("Este aplicativo só pode ser usado quando instalado.");
+    window.location.href = "https://meucode-git.github.io/Teste-OAuth-/";
+}
+
+
