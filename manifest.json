@@ -1,7 +1,7 @@
 {
   "name": "Guia de Entrevistas",
   "short_name": "Entrevistas",
-  "start_url": "/",
+  "start_url": "https://meucode-git.github.io/Teste-OAuth-/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
