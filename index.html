@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
+        /* Estilos gerais */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -62,31 +63,100 @@
         .g_id_signin {
             margin-top: 20px;
         }
+        .app-bar {
+            background-color: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .button {
+            display: block;
+            margin: 20px auto;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #03dac6, #6200ea);
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #ddd;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body data-theme="light">
-    <!-- Container for Login Form -->
-    <div class="container">
+    <!-- Tela de Login -->
+    <div id="login-container" class="container">
         <h2>Login</h2>
-
-        <!-- Login Tradicional -->
         <form id="loginForm">
             <input type="text" id="username" placeholder="Usuário" required>
             <input type="password" id="password" placeholder="Senha" required>
             <button type="submit">Entrar</button>
         </form>
 
-        <!-- Login com Google -->
         <div id="google-login-container"></div>
-
         <div id="message"></div>
         <p class="theme-toggle" onclick="toggleTheme()">Alternar Tema</p>
     </div>
+
+    <!-- Guia de Entrevistas -->
+    <div id="interview-guide-container" class="container" style="display:none;">
+        <div class="app-bar">Guia de Entrevistas</div>
+        <h1>Bem-vindo!</h1>
+        <p>Siga estas orientações para entrevistas incríveis:</p>
+        
+        <h2>1. Preparação</h2>
+        <ul>
+            <li>Escolha um local silencioso e bem iluminado.</li>
+            <li>Verifique se o equipamento de gravação está funcionando.</li>
+            <li>Sorria e seja acolhedor com os entrevistados.</li>
+        </ul>
+        
+        <h2>2. Perguntas Sugeridas</h2>
+        <ul>
+            <li>"O que mais te impactou no culto de hoje?"</li>
+            <li>"Como você se sentiu participando do culto?"</li>
+            <li>"Que mensagem você levará para sua vida?"</li>
+        </ul>
+        
+        <h2>3. Dicas Durante a Entrevista</h2>
+        <ul>
+            <li>Peça autorização para gravar e usar o depoimento.</li>
+            <li>Deixe o entrevistado confortável e à vontade para falar.</li>
+            <li>Grave de forma horizontal para melhor qualidade de vídeo.</li>
+        </ul>
+        
+        <h2>4. Finalização</h2>
+        <ul>
+            <li>Agradeça o entrevistado pela participação.</li>
+            <li>Revise o vídeo para garantir boa qualidade.</li>
+        </ul>
+        
+        <a href="#" class="button">Pronto para começar!</a>
+    </div>
+
+    <footer>&copy; 2025 - Guia de Entrevistas</footer>
 
     <script>
         const loginForm = document.getElementById('loginForm');
         const message = document.getElementById('message');
         const body = document.body;
+        const loginContainer = document.getElementById('login-container');
+        const interviewGuideContainer = document.getElementById('interview-guide-container');
 
         // Função para alternar o tema
         function toggleTheme() {
@@ -106,7 +176,8 @@
             if (username === "Anaiasd" && password === "9340") {
                 message.innerHTML = "<p style='color: green;'>Acesso liberado!</p>";
                 setTimeout(() => {
-                    window.location.href = "dashboard.html"; // Substitua pelo link da página principal
+                    loginContainer.style.display = "none";
+                    interviewGuideContainer.style.display = "block";
                 }, 1000);
             } else {
                 message.innerHTML = "<p style='color: red;'>Usuário ou senha incorretos.</p>";
@@ -120,6 +191,8 @@
 
             // Exibe os dados do perfil
             alert(`Bem-vindo, ${data.name}`);
+            loginContainer.style.display = "none";
+            interviewGuideContainer.style.display = "block";
         }
 
         // Função para decodificar o token JWT
