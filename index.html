@@ -3,66 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login com Google</title>
+    <title>Login</title>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
         }
-        .profile {
-            display: none;
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+        }
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+        }
+        .container {
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-top: 20px;
+            width: 300px;
         }
-        img {
-            border-radius: 50%;
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .theme-toggle {
             margin-top: 10px;
+            cursor: pointer;
+            color: var(--text-color);
         }
         .g_id_signin {
             margin-top: 20px;
         }
     </style>
 </head>
-<body>
-    <!-- Google Sign-In Button -->
-    <div id="g_id_onload"
-         data-client_id="53568730235-00maphaj2hos2np64nvbq3iobf7v2380.apps.googleusercontent.com"
-         data-login_uri="https://meucode-git.github.io/Teste-OAuth-/"
-         data-auto_prompt="false">
-    </div>
-    <div class="g_id_signin"
-         data-type="standard"
-         data-shape="rectangular"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-size="large"
-         data-logo_alignment="left">
-    </div>
+<body data-theme="light">
+    <!-- Container for Login Form -->
+    <div class="container">
+        <h2>Login</h2>
 
-    <!-- Profile Section -->
-    <div class="profile" id="profile">
-        <h2 id="name"></h2>
-        <img id="image" alt="Profile Picture">
-        <p id="email"></p>
+        <!-- Login Tradicional -->
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Usuário" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+
+        <!-- Login com Google -->
+        <div id="google-login-container"></div>
+
+        <div id="message"></div>
+        <p class="theme-toggle" onclick="toggleTheme()">Alternar Tema</p>
     </div>
 
     <script>
-        // Função de callback quando o login for bem-sucedido
+        const loginForm = document.getElementById('loginForm');
+        const message = document.getElementById('message');
+        const body = document.body;
+
+        // Função para alternar o tema
+        function toggleTheme() {
+            if (body.dataset.theme === "dark") {
+                body.dataset.theme = "light";
+            } else {
+                body.dataset.theme = "dark";
+            }
+        }
+
+        // Função de login tradicional
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === "Anaiasd" && password === "9340") {
+                message.innerHTML = "<p style='color: green;'>Acesso liberado!</p>";
+                setTimeout(() => {
+                    window.location.href = "dashboard.html"; // Substitua pelo link da página principal
+                }, 1000);
+            } else {
+                message.innerHTML = "<p style='color: red;'>Usuário ou senha incorretos.</p>";
+            }
+        });
+
+        // Função de callback quando o login com Google for bem-sucedido
         function handleCredentialResponse(response) {
             // Decodifica o token JWT
             const data = parseJwt(response.credential);
 
             // Exibe os dados do perfil
-            document.getElementById('name').textContent = `Bem-vindo, ${data.name}`;
-            document.getElementById('email').textContent = `E-mail: ${data.email}`;
-            document.getElementById('image').src = data.picture;
-            document.getElementById('profile').style.display = 'block';
+            alert(`Bem-vindo, ${data.name}`);
         }
 
         // Função para decodificar o token JWT
@@ -81,7 +138,16 @@
                 client_id: "53568730235-00maphaj2hos2np64nvbq3iobf7v2380.apps.googleusercontent.com",
                 callback: handleCredentialResponse
             });
-            google.accounts.id.prompt(); // Exibe o prompt de login
+
+            // Exibe o botão de login com Google
+            google.accounts.id.renderButton(
+                document.getElementById('google-login-container'),
+                {
+                    theme: 'outline',
+                    size: 'large',
+                    text: 'sign_in_with'
+                }
+            );
         };
     </script>
 </body>
