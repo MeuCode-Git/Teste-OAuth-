@@ -1,7 +1,7 @@
 {
   "name": "Guia de Entrevistas",
   "short_name": "Entrevistas",
-  "start_url": "/Teste-OAuth-/",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
